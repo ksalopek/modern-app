@@ -18,12 +18,13 @@ export default function Index({ notes }) {
 
     const submitCreate = (e) => {
         e.preventDefault();
-        post('/notes', { onSuccess: () => reset() });
+        post(route('notes.store'), { onSuccess: () => reset() });
     };
 
     const deleteNote = (id) => {
         if (confirm('Are you sure you want to delete this note?')) {
-            router.delete(`/notes/${id}`);
+            // Using the route() helper function (named route) instead of a hardcoded string
+            router.delete(route('notes.destroy', id));
         }
     };
 
@@ -34,7 +35,8 @@ export default function Index({ notes }) {
 
     const submitUpdate = (e, id) => {
         e.preventDefault();
-        router.put(`/notes/${id}`, editForm, {
+        // Using the route() helper function (named route) instead of a hardcoded string
+        router.put(route('notes.update', id), editForm, {
             onSuccess: () => setEditingNoteId(null) // Close the edit form on success
         });
     };

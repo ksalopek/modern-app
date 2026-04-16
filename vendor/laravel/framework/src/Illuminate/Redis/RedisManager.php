@@ -9,7 +9,10 @@ use Illuminate\Redis\Connectors\PhpRedisConnector;
 use Illuminate\Redis\Connectors\PredisConnector;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ConfigurationUrlParser;
+use Illuminate\Support\RebindsCallbacksToSelf;
 use InvalidArgumentException;
+use ReflectionException;
+use RuntimeException;
 
 use function Illuminate\Support\enum_value;
 
@@ -18,6 +21,8 @@ use function Illuminate\Support\enum_value;
  */
 class RedisManager implements Factory
 {
+    use RebindsCallbacksToSelf;
+
     /**
      * The application instance.
      *
@@ -263,7 +268,13 @@ class RedisManager implements Factory
      */
     public function extend($driver, Closure $callback)
     {
-        $this->customCreators[$driver] = $callback->bindTo($this, $this);
+        try {
+            $callback = $this->bindCallbackToSelf($callback) ?? throw new RuntimeException('Unable to bind custom driver callback');
+        } catch (ReflectionException $e) {
+            throw new RuntimeException('Unable to bind custom driver callback', previous: $e);
+        }
+
+        $this->customCreators[$driver] = $callback;
 
         return $this;
     }

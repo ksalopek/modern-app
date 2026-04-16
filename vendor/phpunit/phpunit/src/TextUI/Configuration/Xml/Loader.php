@@ -948,6 +948,7 @@ final readonly class Loader
             $this->parseBooleanAttribute($document->documentElement, 'failOnPhpunitNotice', false),
             $this->parseBooleanAttribute($document->documentElement, 'failOnPhpunitWarning', true),
             $this->parseBooleanAttribute($document->documentElement, 'failOnEmptyTestSuite', false),
+            $document->documentElement->hasAttribute('failOnEmptyTestSuite'),
             $this->parseBooleanAttribute($document->documentElement, 'failOnIncomplete', false),
             $this->parseBooleanAttribute($document->documentElement, 'failOnNotice', false),
             $this->parseBooleanAttribute($document->documentElement, 'failOnRisky', false),
@@ -991,10 +992,8 @@ final readonly class Loader
         $colors = Configuration::COLOR_DEFAULT;
 
         if ($document->documentElement->hasAttribute('colors')) {
-            /* only allow boolean for compatibility with previous versions
-              'always' only allowed from command line */
             if ($this->booleanFromString($document->documentElement->getAttribute('colors'), false)) {
-                $colors = Configuration::COLOR_AUTO;
+                $colors = Configuration::COLOR_ALWAYS;
             } else {
                 $colors = Configuration::COLOR_NEVER;
             }
