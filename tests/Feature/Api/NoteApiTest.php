@@ -91,7 +91,7 @@ class NoteApiTest extends TestCase
         // Assert: Check that the JSON response contains the updated title.
         $response->assertJson([
             'title' => 'Updated Title',
-            'content' => 'Updated content.',
+            'content' => 'Updated content.',git
             'notes' => 'This is an extra note.',
         ]);
 
