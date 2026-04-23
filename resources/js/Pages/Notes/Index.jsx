@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Head, useForm, router, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { debounce } from 'lodash';
 
-export default function Index({ notes }) {
+export default function Index({ notes, filters }) {
     // 1. State for the "Create" form
     const { data, setData, post, processing, reset, errors } = useForm({
         title: '',
@@ -14,6 +15,9 @@ export default function Index({ notes }) {
     const [editingNoteId, setEditingNoteId] = useState(null);
     const [editForm, setEditForm] = useState({ title: '', content: '', notes: '' });
 
+    // 3. State for the search input, initialized with the filters prop from the controller
+    const [searchTerm, setSearchTerm] = useState(filters.search || '');
+
     // --- Action Handlers ---
 
     const submitCreate = (e) => {
@@ -23,7 +27,6 @@ export default function Index({ notes }) {
 
     const deleteNote = (id) => {
         if (confirm('Are you sure you want to delete this note?')) {
-            // Using the route() helper function (named route) instead of a hardcoded string
             router.delete(route('notes.destroy', id));
         }
     };
@@ -35,11 +38,28 @@ export default function Index({ notes }) {
 
     const submitUpdate = (e, id) => {
         e.preventDefault();
-        // Using the route() helper function (named route) instead of a hardcoded string
         router.put(route('notes.update', id), editForm, {
-            onSuccess: () => setEditingNoteId(null) // Close the edit form on success
+            onSuccess: () => setEditingNoteId(null)
         });
     };
+
+    // --- Search Handling ---
+    const debouncedSearch = useCallback(
+        debounce((nextValue) => {
+            router.get(route('notes.index'), { search: nextValue }, {
+                preserveState: true,
+                replace: true,
+            });
+        }, 300),
+        [] // Tells React to only create this function once
+    );
+
+    useEffect(() => {
+        // Don't run the search if the term is the same as what the server already has
+        if (searchTerm !== filters.search) {
+            debouncedSearch(searchTerm);
+        }
+    }, [searchTerm, filters.search, debouncedSearch]);
 
     return (
         <AuthenticatedLayout
@@ -50,71 +70,79 @@ export default function Index({ notes }) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     {/* --- CREATE FORM --- */}
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-8">
-                        <div className="p-6 bg-white border-b border-gray-200">
-                            <form onSubmit={submitCreate}>
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                                    <input
-                                        type="text"
-                                        value={data.title}
-                                        onChange={e => setData('title', e.target.value)}
-                                        className="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                                        placeholder="Note title..."
-                                    />
-                                    {errors.title && <div className="text-red-500 text-sm mt-1">{errors.title}</div>}
-                                </div>
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
-                                    <textarea
-                                        value={data.content}
-                                        onChange={e => setData('content', e.target.value)}
-                                        className="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                                        rows="3"
-                                        placeholder="What's on your mind?"
-                                    ></textarea>
-                                    {errors.content && <div className="text-red-500 text-sm mt-1">{errors.content}</div>}
-                                </div>
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
-                                    <input
-                                        type="text"
-                                        value={data.notes}
-                                        onChange={e => setData('notes', e.target.value)}
-                                        className="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                                        placeholder="Add any notes desired..."
-                                    />
-                                    {errors.notes && <div className="text-red-500 text-sm mt-1">{errors.notes}</div>}
-                                </div>
-                                <button type="submit" disabled={processing} className="w-full bg-emerald-600 text-white font-bold text-lg px-6 py-3 rounded-lg shadow-lg hover:bg-emerald-700 transition-all">
-                                    {processing ? 'Saving...' : 'Save Note'}
-                                </button>
-                            </form>
-                        </div>
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-8 p-6">
+                        <form onSubmit={submitCreate}>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                                <input
+                                    type="text"
+                                    value={data.title}
+                                    onChange={e => setData('title', e.target.value)}
+                                    className="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    placeholder="Note title..."
+                                />
+                                {errors.title && <div className="text-red-500 text-sm mt-1">{errors.title}</div>}
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
+                                <textarea
+                                    value={data.content}
+                                    onChange={e => setData('content', e.target.value)}
+                                    className="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    rows="3"
+                                    placeholder="What's on your mind?"
+                                ></textarea>
+                                {errors.content && <div className="text-red-500 text-sm mt-1">{errors.content}</div>}
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                                <input
+                                    type="text"
+                                    value={data.notes}
+                                    onChange={e => setData('notes', e.target.value)}
+                                    className="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    placeholder="Add any notes desired..."
+                                />
+                                {errors.notes && <div className="text-red-500 text-sm mt-1">{errors.notes}</div>}
+                            </div>
+                            <button type="submit" disabled={processing} className="w-full bg-emerald-600 text-white font-bold text-lg px-6 py-3 rounded-lg shadow-lg hover:bg-emerald-700 transition-all">
+                                {processing ? 'Saving...' : 'Save Note'}
+                            </button>
+                        </form>
+                    </div>
+
+                    {/* --- SEARCH BAR --- */}
+                    <div className="mb-8">
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={e => setSearchTerm(e.target.value)}
+                            placeholder="Search notes..."
+                            className="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                        />
                     </div>
 
                     {/* --- NOTES LIST --- */}
                     <div className="space-y-4">
                         {notes.data.map((note) => (
                             <div key={note.id} className="p-6 bg-white rounded-lg shadow-md border border-gray-200 relative group">
-                                {/* If this note is being edited, show the edit form */}
                                 {editingNoteId === note.id ? (
                                     <form onSubmit={(e) => submitUpdate(e, note.id)}>
                                         <input
                                             type="text"
                                             value={editForm.title}
-                                            onChange={e => setEditForm({...editForm, title: e.target.value})}
+                                            onChange={e => setEditForm({ ...editForm, title: e.target.value })}
                                             className="w-full mb-2 border-gray-300 rounded-md shadow-sm"
                                         />
                                         <textarea
                                             value={editForm.content}
-                                            onChange={e => setEditForm({...editForm, content: e.target.value})}
+                                            onChange={e => setEditForm({ ...editForm, content: e.target.value })}
                                             className="w-full mb-4 border-gray-300 rounded-md shadow-sm"
                                             rows="3"
                                         ></textarea>
                                         <textarea
                                             value={editForm.notes}
-                                            onChange={e => setEditForm({...editForm, notes: e.target.value})}
+                                            onChange={e => setEditForm({ ...editForm, notes: e.target.value })}
                                             className="w-full mb-4 border-gray-300 rounded-md shadow-sm"
                                             rows="3"
                                         ></textarea>
@@ -124,7 +152,6 @@ export default function Index({ notes }) {
                                         </div>
                                     </form>
                                 ) : (
-                                    /* Otherwise, show the normal note with action buttons */
                                     <>
                                         <h2 className="text-xl font-semibold text-gray-900">{note.title}</h2>
                                         <p className="mt-2 text-gray-600">{note.content}</p>

@@ -28,5 +28,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // We protect all our note API routes with the 'auth:sanctum' middleware.
 // This ensures that only users with a valid API token can access them.
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('notes', NoteController::class);
+    Route::apiResource('notes', NoteController::class)->names('api.notes');
 });

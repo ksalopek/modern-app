@@ -5,20 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNoteRequest;
 use App\Http\Requests\UpdateNoteRequest;
 use App\Models\Note;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class NoteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Fetch only notes for the currently authenticated user, paginated to 10 per page.
-        // Thanks to the SoftDeletes trait, this will AUTOMATICALLY exclude "trashed" notes!
-        $notes = Auth::user()->notes()->latest()->paginate(10);
+        $notes = Auth::user()->notes()
+            ->when($request->input('search'), function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%")
+                      ->orWhere('content', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString(); // Appends query strings like ?search=... to pagination links
 
         return Inertia::render('Notes/Index', [
-            'notes' => $notes
+            'notes' => $notes,
+            'filters' => $request->only(['search']), // Pass the search filter back to the view
         ]);
     }
 
@@ -42,9 +49,6 @@ class NoteController extends Controller
     {
         Gate::authorize('delete', $note);
 
-        // Because of the SoftDeletes trait on the Note model, this doesn't
-        // actually run a DELETE SQL statement anymore. It runs an UPDATE
-        // statement setting the `deleted_at` timestamp.
         $note->delete();
 
         return redirect()->back();
