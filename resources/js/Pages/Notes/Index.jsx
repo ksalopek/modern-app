@@ -9,13 +9,14 @@ export default function Index({ notes, filters }) {
         title: '',
         content: '',
         notes: '',
+        tags: '',
     });
 
     // 2. React State to track which note we are currently editing
     const [editingNoteId, setEditingNoteId] = useState(null);
-    const [editForm, setEditForm] = useState({ title: '', content: '', notes: '' });
+    const [editForm, setEditForm] = useState({ title: '', content: '', notes: '', tags: '' });
 
-    // 3. State for the search input, initialized with the filters prop from the controller
+    // 3. State for the search input
     const [searchTerm, setSearchTerm] = useState(filters.search || '');
 
     // --- Action Handlers ---
@@ -33,7 +34,12 @@ export default function Index({ notes, filters }) {
 
     const startEditing = (note) => {
         setEditingNoteId(note.id);
-        setEditForm({ title: note.title, content: note.content, notes: note.notes });
+        setEditForm({
+            title: note.title,
+            content: note.content,
+            notes: note.notes,
+            tags: note.tags.map(tag => tag.name).join(', '),
+        });
     };
 
     const submitUpdate = (e, id) => {
@@ -51,11 +57,10 @@ export default function Index({ notes, filters }) {
                 replace: true,
             });
         }, 300),
-        [] // Tells React to only create this function once
+        []
     );
 
     useEffect(() => {
-        // Don't run the search if the term is the same as what the server already has
         if (searchTerm !== filters.search) {
             debouncedSearch(searchTerm);
         }
@@ -105,6 +110,17 @@ export default function Index({ notes, filters }) {
                                 />
                                 {errors.notes && <div className="text-red-500 text-sm mt-1">{errors.notes}</div>}
                             </div>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+                                <input
+                                    type="text"
+                                    value={data.tags}
+                                    onChange={e => setData('tags', e.target.value)}
+                                    className="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    placeholder="Comma, separated, tags..."
+                                />
+                                {errors.tags && <div className="text-red-500 text-sm mt-1">{errors.tags}</div>}
+                            </div>
                             <button type="submit" disabled={processing} className="w-full bg-emerald-600 text-white font-bold text-lg px-6 py-3 rounded-lg shadow-lg hover:bg-emerald-700 transition-all">
                                 {processing ? 'Saving...' : 'Save Note'}
                             </button>
@@ -140,12 +156,19 @@ export default function Index({ notes, filters }) {
                                             className="w-full mb-4 border-gray-300 rounded-md shadow-sm"
                                             rows="3"
                                         ></textarea>
-                                        <textarea
+                                        <input
+                                            type="text"
                                             value={editForm.notes}
                                             onChange={e => setEditForm({ ...editForm, notes: e.target.value })}
                                             className="w-full mb-4 border-gray-300 rounded-md shadow-sm"
-                                            rows="3"
-                                        ></textarea>
+                                        />
+                                        <input
+                                            type="text"
+                                            value={editForm.tags}
+                                            onChange={e => setEditForm({ ...editForm, tags: e.target.value })}
+                                            className="w-full mb-4 border-gray-300 rounded-md shadow-sm"
+                                            placeholder="Comma, separated, tags..."
+                                        />
                                         <div className="flex gap-2">
                                             <button type="submit" className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm hover:bg-indigo-700">Save Changes</button>
                                             <button type="button" onClick={() => setEditingNoteId(null)} className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md text-sm hover:bg-gray-400">Cancel</button>
@@ -153,18 +176,25 @@ export default function Index({ notes, filters }) {
                                     </form>
                                 ) : (
                                     <>
-                                        <h2 className="text-xl font-semibold text-gray-900">{note.title}</h2>
+                                        <div className="flex justify-between items-start">
+                                            <h2 className="text-xl font-semibold text-gray-900">{note.title}</h2>
+                                            <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button onClick={() => startEditing(note)} className="text-sm text-indigo-600 hover:text-indigo-800 font-semibold">Edit</button>
+                                                <button onClick={() => deleteNote(note.id)} className="text-sm text-red-600 hover:text-red-800 font-semibold">Delete</button>
+                                            </div>
+                                        </div>
                                         <p className="mt-2 text-gray-600">{note.content}</p>
                                         <p className="mt-2 text-gray-600">{note.notes}</p>
-
-                                        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button onClick={() => startEditing(note)} className="text-sm text-indigo-600 hover:text-indigo-800 font-semibold">
-                                                Edit
-                                            </button>
-                                            <button onClick={() => deleteNote(note.id)} className="text-sm text-red-600 hover:text-red-800 font-semibold">
-                                                Delete
-                                            </button>
-                                        </div>
+                                        {/* Display Tags */}
+                                        {note.tags.length > 0 && (
+                                            <div className="mt-4 flex flex-wrap gap-2">
+                                                {note.tags.map(tag => (
+                                                    <span key={tag.id} className="px-2 py-1 bg-gray-200 text-gray-800 text-xs font-semibold rounded-full">
+                                                        {tag.name}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
                                     </>
                                 )}
                             </div>
