@@ -24,10 +24,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Notes Routes
     Route::get('/my-journal', [NoteController::class, 'index'])->name('notes.index');
     Route::post('/my-journal', [NoteController::class, 'store'])->name('notes.store');
     Route::put('/my-journal/{note}', [NoteController::class, 'update'])->name('notes.update');
     Route::delete('/my-journal/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
+
+    // Trash Routes
+    Route::get('/my-journal/trash', [NoteController::class, 'trash'])->name('notes.trash');
+    Route::put('/my-journal/{id}/restore', [NoteController::class, 'restore'])->name('notes.restore');
+    Route::delete('/my-journal/{id}/force-delete', [NoteController::class, 'forceDelete'])->name('notes.forceDelete');
 });
 
 require __DIR__.'/auth.php';

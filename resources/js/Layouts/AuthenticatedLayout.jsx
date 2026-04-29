@@ -36,6 +36,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     My Notes
                                 </NavLink>
+                                <NavLink
+                                    href={route('notes.trash')}
+                                    active={route().current('notes.trash')}
+                                >
+                                    Trash Can
+                                </NavLink>
                             </div>
                         </div>
 
@@ -145,6 +151,12 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('notes.index')}
                         >
                             My Notes
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('notes.trash')}
+                            active={route().current('notes.trash')}
+                        >
+                            Trash Can
                         </ResponsiveNavLink>
                     </div>
 
