@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0713d8d8-c6df-4e30-a590-054db4569920" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Models/Tag.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2024_04_25_000001_create_tags_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2024_04_25_000002_create_note_tag_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/NoteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/NoteController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreNoteRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreNoteRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateNoteRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateNoteRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Note.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Note.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Notes/Index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Notes/Index.jsx" afterDir="false" />
-    </list>
+    <list default="true" id="0713d8d8-c6df-4e30-a590-054db4569920" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -205,7 +194,7 @@
     "credentialsType com.jetbrains.php.remote.interpreter.ui.PhpCreateRemoteSdkForm": "Docker Compose",
     "credentialsType com.jetbrains.php.remote.interpreter.ui.PhpInplaceEditRemoteSdkForm": "Docker Compose",
     "deletionFromPopupRequiresConfirmation": "false",
-    "git-widget-placeholder": "feature/tags",
+    "git-widget-placeholder": "feature/add__trashed__notes",
     "last_opened_file_path": "//wsl.localhost/Ubuntu/home/ksalopek/modern-app",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager",
@@ -232,8 +221,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-3bd3a6803838-JavaScript-PS-261.22158.283" />
-        <option value="bundled-php-predefined-a98d8de5180a-a9a4ea3ee0f4-com.jetbrains.php.sharedIndexes-PS-261.22158.283" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-PS-261.23567.149" />
+        <option value="bundled-php-predefined-a98d8de5180a-022fa7b8ab75-com.jetbrains.php.sharedIndexes-PS-261.23567.149" />
       </set>
     </attachedChunks>
   </component>
@@ -267,6 +256,12 @@
       <workItem from="1776794863561" duration="2382000" />
       <workItem from="1776924985737" duration="1511000" />
       <workItem from="1776970160489" duration="304000" />
+      <workItem from="1777049884724" duration="18000" />
+      <workItem from="1777059684740" duration="2075000" />
+      <workItem from="1777405096932" duration="44000" />
+      <workItem from="1777482257494" duration="199000" />
+      <workItem from="1777482531628" duration="1526000" />
+      <workItem from="1777490035535" duration="1744000" />
     </task>
     <servers />
   </component>
@@ -281,7 +276,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/routes/web.php</url>
-          <line>32</line>
+          <line>38</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

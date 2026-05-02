@@ -16,11 +16,15 @@ class NoteController extends Controller
     public function index(Request $request)
     {
         $notes = Auth::user()->notes()
-            // Eager load the tags for each note to prevent N+1 query issues
             ->with('tags')
             ->when($request->input('search'), function ($query, $search) {
-                $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('content', 'like', "%{$search}%");
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('content', 'like', "%{$search}%")
+                      ->orWhereHas('tags', function ($tagQuery) use ($search) {
+                          $tagQuery->where('name', 'like', "%{$search}%");
+                      });
+                });
             })
             ->latest()
             ->paginate(10)
@@ -56,6 +60,63 @@ class NoteController extends Controller
     {
         Gate::authorize('delete', $note);
         $note->delete();
+        return redirect()->back();
+    }
+
+    /**
+     * Display a listing of the user's trashed notes.
+     */
+    public function trash(Request $request)
+    {
+        $trashedNotes = Auth::user()->notes()
+            ->onlyTrashed()
+            ->with('tags')
+            ->when($request->input('search'), function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('content', 'like', "%{$search}%")
+                      ->orWhereHas('tags', function ($tagQuery) use ($search) {
+                          $tagQuery->where('name', 'like', "%{$search}%");
+                      });
+                });
+            })
+            ->latest('deleted_at')
+            ->paginate(10)
+            ->withQueryString();
+
+        return Inertia::render('Notes/Trash', [
+            'notes' => $trashedNotes,
+            'filters' => $request->only(['search']),
+        ]);
+    }
+
+    /**
+     * Restore the specified trashed note.
+     */
+    public function restore($id)
+    {
+        // We have to find the note manually using withTrashed()
+        // because default Route Model Binding ignores soft deleted items.
+        $note = Note::withTrashed()->findOrFail($id);
+
+        Gate::authorize('restore', $note);
+
+        $note->restore();
+
+        return redirect()->back();
+    }
+
+    /**
+     * Permanently delete the specified trashed note.
+     */
+    public function forceDelete($id)
+    {
+        $note = Note::withTrashed()->findOrFail($id);
+
+        Gate::authorize('forceDelete', $note);
+
+        $note->forceDelete();
+
         return redirect()->back();
     }
 

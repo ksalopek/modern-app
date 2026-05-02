@@ -192,8 +192,32 @@ useEffect(() => {
 
 ---
 
+## 9. Soft Deletes & Trash Can UI
+We implemented a complete "Trash Can" feature, allowing users to restore or permanently delete soft-deleted notes.
+
+### Backend: Advanced Eloquent Queries
+We added new routes and methods to handle trashed notes:
+* **`onlyTrashed()`**: Used in the `trash` method to retrieve *only* notes that have a `deleted_at` timestamp.
+  ```php
+  $trashedNotes = Auth::user()->notes()->onlyTrashed()->paginate(10);
+  ```
+* **`withTrashed()`**: Used in the `restore` and `forceDelete` methods. Default Route Model Binding ignores soft-deleted items, so we must manually find the note, explicitly telling Eloquent to include trashed items in its search.
+  ```php
+  $note = Note::withTrashed()->findOrFail($id);
+  ```
+
+### Security & Policies
+We updated the `NotePolicy` to include `restore` and `forceDelete` methods, ensuring a user can only perform these actions on their own notes. We enforce this in the controller using `Gate::authorize('restore', $note)`.
+
+### Frontend
+We created a new `Trash.jsx` component that displays the trashed notes. Instead of standard "Edit" and "Delete" actions, it provides:
+* **Restore**: Sends a `PUT` request to the restore route.
+* **Force Delete**: Sends a `DELETE` request to the force-delete route, which permanently removes the record from the database.
+
+---
+
 ### Keep Learning!
 If you want to keep exploring, try adding these features next:
-1. **Tags**: Create a `Tag` model and a Many-to-Many relationship so notes can have multiple tags.
-2. **Trash Can UI**: Create a new route that fetches `$user->notes()->onlyTrashed()->get()` so users can see and restore soft-deleted notes.
+1. **User Profile/Settings**: Expand the profile page to allow users to update their information, change passwords, or manage API tokens.
+2. **Real-time Notifications**: Use WebSockets and Laravel Echo to add live notifications (e.g., when a shared note is updated).
 3. **CI/CD Pipeline**: Set up a GitHub Action to automatically run your Pest tests whenever you push new code to your repository.
