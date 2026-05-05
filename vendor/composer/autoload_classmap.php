@@ -26,6 +26,7 @@ return array(
     'App\\Http\\Requests\\StoreNoteRequest' => $baseDir . '/app/Http/Requests/StoreNoteRequest.php',
     'App\\Http\\Requests\\UpdateNoteRequest' => $baseDir . '/app/Http/Requests/UpdateNoteRequest.php',
     'App\\Models\\Note' => $baseDir . '/app/Models/Note.php',
+    'App\\Models\\Tag' => $baseDir . '/app/Models/Tag.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Policies\\NotePolicy' => $baseDir . '/app/Policies/NotePolicy.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',

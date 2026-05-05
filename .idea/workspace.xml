@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0713d8d8-c6df-4e30-a590-054db4569920" name="Changes" comment="" />
+    <list default="true" id="be8e11fc-ff77-484d-a071-6b3c4e60b308" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/js/Components/FlashMessage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/NoteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/NoteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/HandleInertiaRequests.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/HandleInertiaRequests.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Layouts/AuthenticatedLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Layouts/AuthenticatedLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/installed.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/installed.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -9,35 +18,23 @@
   </component>
   <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
-    <execution>
-      <phar pharPath="$PROJECT_DIR$/composer.phar" />
-    </execution>
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JSX File" />
-      </list>
-    </option>
+    <execution />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;ksalopek&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "ksalopek"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/ksalopek/modern-app.git&quot;,
-    &quot;accountId&quot;: &quot;b5aca80b-a935-41de-a52d-8615e3094e1b&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/ksalopek/modern-app.git",
+    "accountId": "b5aca80b-a935-41de-a52d-8615e3094e1b"
   }
-}</component>
-  <component name="PackageJsonUpdateNotifier">
-    <dismissed value="$PROJECT_DIR$/package.json" />
-  </component>
+}]]></component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="laravel.test">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/sebastian/object-enumerator" />
@@ -170,11 +167,11 @@
       <path value="$PROJECT_DIR$/vendor/ta-tikoma/phpunit-architecture-test" />
     </include_path>
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 4,
-  &quot;fromUser&quot;: false
-}</component>
-  <component name="ProjectId" id="3BzcM2vINlzA6x2z5viSUkoVgGt" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3DJT5Oz6Kseaj40Zf5SOWVRQRUK" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -184,40 +181,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Composer Script.Run Dev Server.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "credentialsType com.jetbrains.php.remote.interpreter.ui.PhpCreateRemoteSdkForm": "Docker Compose",
-    "credentialsType com.jetbrains.php.remote.interpreter.ui.PhpInplaceEditRemoteSdkForm": "Docker Compose",
-    "deletionFromPopupRequiresConfirmation": "false",
-    "git-widget-placeholder": "feature/add__trashed__notes",
-    "last_opened_file_path": "//wsl.localhost/Ubuntu/home/ksalopek/modern-app",
+    "git-widget-placeholder": "feature/flash__msg__notifications",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2025.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
-  },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite",
-      "mysql"
-    ]
   }
 }]]></component>
-  <component name="RunManager" selected="PHPUnit.Main">
-    <configuration name="Main" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" use_alternative_configuration_file="true" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Main" type="PestRunConfigurationType">
-      <PestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="ConfigurationFile" use_alternative_configuration_file="true" />
-      <method v="2" />
-    </configuration>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -228,58 +200,16 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0713d8d8-c6df-4e30-a590-054db4569920" name="Changes" comment="" />
-      <created>1775495287904</created>
+      <changelist id="be8e11fc-ff77-484d-a071-6b3c4e60b308" name="Changes" comment="" />
+      <created>1777998999799</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1775495287904</updated>
-      <workItem from="1775495289226" duration="7532000" />
-      <workItem from="1775506486969" duration="1259000" />
-      <workItem from="1775510577256" duration="6000" />
-      <workItem from="1775510686834" duration="1839000" />
-      <workItem from="1775534701462" duration="340000" />
-      <workItem from="1775535069168" duration="4641000" />
-      <workItem from="1775670266288" duration="449000" />
-      <workItem from="1775751635125" duration="3714000" />
-      <workItem from="1775793836746" duration="35000" />
-      <workItem from="1775838205719" duration="43000" />
-      <workItem from="1775874660935" duration="436000" />
-      <workItem from="1776201096165" duration="687000" />
-      <workItem from="1776202222018" duration="1488000" />
-      <workItem from="1776273765134" duration="4417000" />
-      <workItem from="1776285205823" duration="271000" />
-      <workItem from="1776285854485" duration="592000" />
-      <workItem from="1776288917418" duration="691000" />
-      <workItem from="1776309341397" duration="3005000" />
-      <workItem from="1776725268161" duration="39000" />
-      <workItem from="1776725322717" duration="213000" />
-      <workItem from="1776794863561" duration="2382000" />
-      <workItem from="1776924985737" duration="1511000" />
-      <workItem from="1776970160489" duration="304000" />
-      <workItem from="1777049884724" duration="18000" />
-      <workItem from="1777059684740" duration="2075000" />
-      <workItem from="1777405096932" duration="44000" />
-      <workItem from="1777482257494" duration="199000" />
-      <workItem from="1777482531628" duration="1526000" />
-      <workItem from="1777490035535" duration="1744000" />
+      <updated>1777998999799</updated>
+      <workItem from="1777999001641" duration="211000" />
     </task>
     <servers />
   </component>
-  <component name="TerminalProjectNonSharedOptionsProvider">
-    <option name="shellPath" value="wsl.exe -d Ubuntu" />
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/routes/web.php</url>
-          <line>38</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -642,6 +642,7 @@ class ComposerStaticIniteffcd2e7bfd6bb8ba3105fbfecbefa81
         'App\\Http\\Requests\\StoreNoteRequest' => __DIR__ . '/../..' . '/app/Http/Requests/StoreNoteRequest.php',
         'App\\Http\\Requests\\UpdateNoteRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateNoteRequest.php',
         'App\\Models\\Note' => __DIR__ . '/../..' . '/app/Models/Note.php',
+        'App\\Models\\Tag' => __DIR__ . '/../..' . '/app/Models/Tag.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Policies\\NotePolicy' => __DIR__ . '/../..' . '/app/Policies/NotePolicy.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',

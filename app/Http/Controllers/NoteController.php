@@ -40,32 +40,27 @@ class NoteController extends Controller
     {
         $validated = $request->validated();
         $note = Auth::user()->notes()->create($validated);
-
         $this->syncTags($request, $note);
 
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Note created successfully!');
     }
 
     public function update(UpdateNoteRequest $request, Note $note)
     {
         $validated = $request->validated();
         $note->update($validated);
-
         $this->syncTags($request, $note);
 
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Note updated successfully!');
     }
 
     public function destroy(Note $note)
     {
         Gate::authorize('delete', $note);
         $note->delete();
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Note moved to trash!');
     }
 
-    /**
-     * Display a listing of the user's trashed notes.
-     */
     public function trash(Request $request)
     {
         $trashedNotes = Auth::user()->notes()
@@ -90,39 +85,24 @@ class NoteController extends Controller
         ]);
     }
 
-    /**
-     * Restore the specified trashed note.
-     */
     public function restore($id)
     {
-        // We have to find the note manually using withTrashed()
-        // because default Route Model Binding ignores soft deleted items.
         $note = Note::withTrashed()->findOrFail($id);
-
         Gate::authorize('restore', $note);
-
         $note->restore();
 
-        return redirect()->back();
+        return redirect()->route('notes.trash')->with('message', 'Note restored successfully!');
     }
 
-    /**
-     * Permanently delete the specified trashed note.
-     */
     public function forceDelete($id)
     {
         $note = Note::withTrashed()->findOrFail($id);
-
         Gate::authorize('forceDelete', $note);
-
         $note->forceDelete();
 
-        return redirect()->back();
+        return redirect()->route('notes.trash')->with('message', 'Note permanently deleted!');
     }
 
-    /**
-     * Sync the tags for the given note.
-     */
     private function syncTags(Request $request, Note $note): void
     {
         $tagIds = [];
@@ -131,14 +111,11 @@ class NoteController extends Controller
             foreach ($tagNames as $tagName) {
                 $tagName = trim($tagName);
                 if ($tagName) {
-                    // Find or create the tag and get its ID
                     $tag = Tag::firstOrCreate(['name' => $tagName]);
                     $tagIds[] = $tag->id;
                 }
             }
         }
-
-        // Sync the tags with the note
         $note->tags()->sync($tagIds);
     }
 }
