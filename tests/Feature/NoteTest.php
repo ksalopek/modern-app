@@ -118,6 +118,6 @@ class NoteTest extends TestCase
 
         // Assert
         $response->assertRedirect();
-        $response->assertSessionHas('message', 'Note permanently deleted!fdsasdfd');
+        $response->assertSessionHas('message', 'Note permanently deleted!fds');
     }
 }

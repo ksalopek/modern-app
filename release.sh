@@ -10,6 +10,7 @@
 # The name of your primary development/integration branch.
 TEST_BRANCH="test"
 MAIN_BRANCH="main"
+DEVELOP_BRANCH="develop"
 
 # --- Safety Checks ---
 # Exit immediately if a command exits with a non-zero status.
@@ -76,8 +77,8 @@ git push origin $VERSION
 echo "✅ '$MAIN_BRANCH' is now tagged and up-to-date with release '$VERSION'."
 echo
 
-# --- Step 4: Merge Release Back into Test ---
-echo "--- Step 4: Merging '$RELEASE_BRANCH' back into '$TEST_BRANCH' to include any hotfixes ---"
+# --- Step 4: Update Develop ---
+echo "--- Step 4: Updating Develope with release ---"
 read -p "Continue? (y/n) " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]; then
@@ -85,26 +86,10 @@ if [[ ! $REPLY =~ ^[Yy]$ ]; then
     exit 1
 fi
 
-git checkout $TEST_BRANCH
-git merge --no-ff $RELEASE_BRANCH -m "Merge release branch '$RELEASE_BRANCH' back into $TEST_BRANCH"
-git push origin $TEST_BRANCH
-echo "✅ '$TEST_BRANCH' is now fully up-to-date."
-echo
-
-# --- Step 5: Cleanup ---
-echo "--- Step 5: Cleaning up branches ---"
-echo "This will delete the feature and release branches locally and remotely."
-read -p "Continue? (y/n) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Aborted."
-    exit 1
-fi
-
-git branch -d $FEATURE_BRANCH
-git push origin --delete $FEATURE_BRANCH
-git branch -d $RELEASE_BRANCH
-git push origin --delete $RELEASE_BRANCH
-echo "✅ Feature and release branches have been deleted."
+git checkout $DEVELOP_BRANCH
+git merge --no-ff $MAIN_BRANCH -m "Merge branch '$MAIN_BRANCH' into $DEVELOP_BRANCH"
+git commit -a -m "Updating develop with release"
+git push origin $DEVELOP_BRANCH
+echo "✅ '$DEVELOP_BRANCH' is now fully up-to-date."
 echo
 echo "🎉 Release process complete!"

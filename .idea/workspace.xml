@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be8e11fc-ff77-484d-a071-6b3c4e60b308" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/release.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/release.sh" beforeDir="false" afterPath="$PROJECT_DIR$/release.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/Feature/NoteTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/NoteTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/pestphp/pest/.temp/test-results" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/pestphp/pest/.temp/test-results" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +181,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHELLCHECK.PATH": "C:\\Users\\krs19\\AppData\\Roaming\\JetBrains\\PhpStorm2026.1\\plugins\\Shell Script\\linux\\amd64\\shellcheck",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "feature/test__automation",
+    "git-widget-placeholder": "feature/test__automation2",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
