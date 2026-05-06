@@ -1,0 +1,38 @@
+name: Laravel CI
+
+on:
+    push:
+        branches: [ "main", "test" ]
+    pull_request:
+        branches: [ "main", "test" ]
+
+jobs:
+    laravel-tests:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.3' # Match your composer.json requirement
+                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+                  coverage: none # Disable Xdebug or PCOV for faster execution if not needed for coverage reports
+
+            - name: Install Composer Dependencies
+              run: composer install --prefer-dist --no-interaction --no-progress
+
+            - name: Install NPM Dependencies
+              run: npm install
+
+            - name: Create .env file
+              run: cp .env.example .env
+
+            - name: Generate Application Key
+              run: php artisan key:generate
+
+            - name: Run Migrations
+              run: php artisan migrate --force
+
+            - name: Run Tests
+              run: php artisan test
