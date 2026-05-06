@@ -216,8 +216,33 @@ We created a new `Trash.jsx` component that displays the trashed notes. Instead 
 
 ---
 
+## 10. Automated Testing with CI/CD (GitHub Actions)
+To ensure the application remains stable as new features are added, we set up Continuous Integration (CI) using GitHub Actions.
+
+### What is CI/CD?
+Continuous Integration is the practice of automatically running your automated tests every time new code is pushed to your repository. This guarantees that your `main` and `develop` branches are always in a working state.
+
+### The Workflow File (`.github/workflows/laravel.yml`)
+GitHub Actions are defined using YAML files. Our workflow instructs GitHub's servers to automatically perform the following steps whenever code is pushed:
+
+1. **Trigger**: The `on: push` section tells the workflow to run when changes are pushed to `main`, `test`, or `develop`.
+2. **Environment Setup**: It provisions a virtual machine (`ubuntu-latest`) and installs PHP 8.4 using `shivammathur/setup-php`.
+3. **Install Dependencies**: It runs `composer install` and `npm install` to gather all backend and frontend packages.
+4. **Build Assets**: It runs `npm run build` so Vite compiles the frontend assets, which prevents "manifest not found" errors during testing.
+5. **Database Prep**: It copies the `.env.example` file and creates an empty SQLite database file (`touch database/database.sqlite`) to satisfy Laravel's default configuration before migrations run.
+6. **Run Migrations & Tests**: Finally, it runs `php artisan migrate --force` followed by `php artisan test`.
+
+### In-Memory SQLite Testing (`phpunit.xml`)
+To make the tests run as fast and reliably as possible, we configured `phpunit.xml` to use an **in-memory SQLite database**:
+```xml
+<env name="DB_CONNECTION" value="sqlite"/>
+<env name="DB_DATABASE" value=":memory:"/>
+```
+This ensures the tests don't modify your local development database and run entirely in RAM, wiping clean after every test run.
+
+---
+
 ### Keep Learning!
 If you want to keep exploring, try adding these features next:
 1. **User Profile/Settings**: Expand the profile page to allow users to update their information, change passwords, or manage API tokens.
 2. **Real-time Notifications**: Use WebSockets and Laravel Echo to add live notifications (e.g., when a shared note is updated).
-3. **CI/CD Pipeline**: Set up a GitHub Action to automatically run your Pest tests whenever you push new code to your repository.
