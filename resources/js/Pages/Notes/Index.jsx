@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Head, useForm, router, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { debounce } from 'lodash';
+import RichTextEditor from '@/Components/RichTextEditor'; // Import the new component
 
 export default function Index({ notes, filters }) {
     // 1. State for the "Create" form
@@ -90,23 +91,19 @@ export default function Index({ notes, filters }) {
                             </div>
                             <div className="mb-4">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
-                                <textarea
-                                    value={data.content}
-                                    onChange={e => setData('content', e.target.value)}
-                                    className="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                                    rows="3"
-                                    placeholder="What's on your mind?"
-                                ></textarea>
+                                <RichTextEditor
+                                    content={data.content}
+                                    onChange={newContent => setData('content', newContent)}
+                                    className="min-h-[150px]"
+                                />
                                 {errors.content && <div className="text-red-500 text-sm mt-1">{errors.content}</div>}
                             </div>
                             <div className="mb-4">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
-                                <input
-                                    type="text"
-                                    value={data.notes}
-                                    onChange={e => setData('notes', e.target.value)}
-                                    className="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                                    placeholder="Add any notes desired..."
+                                <RichTextEditor
+                                    content={data.notes}
+                                    onChange={newNotes => setData('notes', newNotes)}
+                                    className="min-h-[100px]"
                                 />
                                 {errors.notes && <div className="text-red-500 text-sm mt-1">{errors.notes}</div>}
                             </div>
@@ -150,18 +147,22 @@ export default function Index({ notes, filters }) {
                                             onChange={e => setEditForm({ ...editForm, title: e.target.value })}
                                             className="w-full mb-2 border-gray-300 rounded-md shadow-sm"
                                         />
-                                        <textarea
-                                            value={editForm.content}
-                                            onChange={e => setEditForm({ ...editForm, content: e.target.value })}
-                                            className="w-full mb-4 border-gray-300 rounded-md shadow-sm"
-                                            rows="3"
-                                        ></textarea>
-                                        <input
-                                            type="text"
-                                            value={editForm.notes}
-                                            onChange={e => setEditForm({ ...editForm, notes: e.target.value })}
-                                            className="w-full mb-4 border-gray-300 rounded-md shadow-sm"
-                                        />
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
+                                            <RichTextEditor
+                                                content={editForm.content}
+                                                onChange={newContent => setEditForm({ ...editForm, content: newContent })}
+                                                className="min-h-[150px]"
+                                            />
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                                            <RichTextEditor
+                                                content={editForm.notes}
+                                                onChange={newNotes => setEditForm({ ...editForm, notes: newNotes })}
+                                                className="min-h-[100px]"
+                                            />
+                                        </div>
                                         <input
                                             type="text"
                                             value={editForm.tags}
@@ -183,8 +184,8 @@ export default function Index({ notes, filters }) {
                                                 <button onClick={() => deleteNote(note.id)} className="text-sm text-red-600 hover:text-red-800 font-semibold">Delete</button>
                                             </div>
                                         </div>
-                                        <p className="mt-2 text-gray-600">{note.content}</p>
-                                        <p className="mt-2 text-gray-600">{note.notes}</p>
+                                        <div className="prose mt-2 text-gray-600" dangerouslySetInnerHTML={{ __html: note.content }} />
+                                        <div className="prose mt-2 text-gray-600" dangerouslySetInnerHTML={{ __html: note.notes }} />
                                         {/* Display Tags */}
                                         {note.tags.length > 0 && (
                                             <div className="mt-4 flex flex-wrap gap-2">

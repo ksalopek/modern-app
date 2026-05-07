@@ -6,18 +6,24 @@ export default function FlashMessage() {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        // Check for the existence of flash and flash.message before proceeding.
+        // Only show the flash message if there is one.
         if (flash && flash.message) {
             setVisible(true);
 
+            // Set a timer to automatically hide it after 5 seconds.
             const timer = setTimeout(() => {
                 setVisible(false);
-            }, 3000);
+            }, 5000);
 
+            // Clean up the timer if the component unmounts or if the flash prop changes again.
             return () => clearTimeout(timer);
+        } else {
+            // If there is no flash message, ensure the component is not visible.
+            setVisible(false);
         }
     }, [flash]);
 
+    // If the component is not visible, render nothing.
     if (!visible) {
         return null;
     }
