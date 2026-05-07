@@ -81,8 +81,10 @@ export default function Trash({ notes, filters }) {
                                             </button>
                                         </div>
                                     </div>
-                                    <p className="mt-2 text-gray-600">{note.content}</p>
-                                    <p className="mt-2 text-gray-600">{note.notes}</p>
+                                    {/* Render content as HTML */}
+                                    <div className="prose mt-2 text-gray-600" dangerouslySetInnerHTML={{ __html: note.content }} />
+                                    {/* Render notes as HTML */}
+                                    <div className="prose mt-2 text-gray-600" dangerouslySetInnerHTML={{ __html: note.notes }} />
                                     <p className="mt-4 text-xs text-red-500 font-semibold">
                                         Deleted: {new Date(note.deleted_at).toLocaleString()}
                                     </p>
