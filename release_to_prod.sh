@@ -16,13 +16,6 @@ DEVELOP_BRANCH="develop"
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
-# Check if the correct number of arguments are provided.
-if [ "$#" -ne 2 ]; then
-    echo "USAGE: ./release.sh <feature-branch> <version>"
-    echo "Example: ./release.sh feature/add-tags v1.1.0"
-    exit 1
-fi
-
 VERSION=$1
 RELEASE_BRANCH="release/$VERSION"
 

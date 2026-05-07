@@ -15,13 +15,6 @@ MAIN_BRANCH="main"
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
-# Check if the correct number of arguments are provided.
-if [ "$#" -ne 2 ]; then
-    echo "USAGE: ./release.sh <feature-branch> <version>"
-    echo "Example: ./release.sh feature/add-tags v1.1.0"
-    exit 1
-fi
-
 FEATURE_BRANCH=$1
 
 # --- Step 1: Merge Feature into Test Branch ---
