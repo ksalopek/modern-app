@@ -242,7 +242,51 @@ This ensures the tests don't modify your local development database and run enti
 
 ---
 
+## 11. User Roles & Permissions
+We implemented a role-based authorization system to distinguish between regular users and administrators.
+
+### Database & Model
+1.  **Migration**: We added a `role` string column to the `users` table, with a default value of `'user'`.
+2.  **User Model**: We added a helper method `public function isAdmin(): bool` to easily check if a user's role is `'admin'`.
+3.  **User Factory**: We added an `admin()` state to the factory, allowing us to create admin users for testing via `User::factory()->admin()->create()`.
+
+### Authorization
+Instead of adding `if ($user->isAdmin())` to every method in our `NotePolicy`, we used the `before()` method. This special method runs before any other policy check. If it returns `true`, the user is immediately authorized, granting admins "superuser" access to all notes.
+```php
+// app/Policies/NotePolicy.php
+public function before(User $user, string $ability): bool|null
+{
+    if ($user->isAdmin()) {
+        return true;
+    }
+    return null; // Let the regular policy method decide
+}
+```
+
+### Middleware & Routing
+1.  **Middleware**: We created a new middleware at `app/Http/Middleware/EnsureUserIsAdmin.php`. This middleware checks if the logged-in user is an admin. If not, it aborts the request with a `403 Forbidden` error.
+2.  **Registering Middleware**: We registered this middleware in `bootstrap/app.php` with the convenient alias `'admin'`.
+3.  **Protected Routes**: We created a new route group in `routes/web.php` that uses the middleware to protect all routes within it, creating an admin-only section.
+    ```php
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    });
+    ```
+
+### Conditional UI
+In the `AuthenticatedLayout.jsx` component, we now check the user's role and conditionally render the "Admin" navigation link, ensuring that only administrators can see it.
+```jsx
+const isAdmin = user && user.role === 'admin';
+// ...
+{isAdmin && (
+    <NavLink href={route('admin.index')}>Admin</NavLink>
+)}
+```
+
+---
+
 ### Keep Learning!
 If you want to keep exploring, try adding these features next:
-1. **User Profile/Settings**: Expand the profile page to allow users to update their information, change passwords, or manage API tokens.
-2. **Real-time Notifications**: Use WebSockets and Laravel Echo to add live notifications (e.g., when a shared note is updated).
+1. **Admin User Management**: Build a page in the admin section to list all users and manage their roles.
+2. **Sharing Notes**: Allow users to share their notes with other users.
+3. **Rich Text Editor**: Replace the plain textareas with a modern rich text editor like Tiptap.
