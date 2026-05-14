@@ -10,6 +10,9 @@ export default function AuthenticatedLayout({ header, children }) {
     const { user } = usePage().props.auth;
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
+    // Helper to check if the user is an admin
+    const isAdmin = user && user.role === 'admin';
+
     return (
         <div className="min-h-screen bg-gray-100">
             <FlashMessage />
@@ -33,6 +36,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                 <NavLink href={route('notes.trash')} active={route().current('notes.trash')}>
                                     Trash Can
                                 </NavLink>
+                                {/* Conditionally render the Admin link */}
+                                {isAdmin && (
+                                    <NavLink href={route('admin.index')} active={route().current('admin.index')}>
+                                        Admin
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 
@@ -110,6 +119,12 @@ export default function AuthenticatedLayout({ header, children }) {
                         <ResponsiveNavLink href={route('notes.trash')} active={route().current('notes.trash')}>
                             Trash Can
                         </ResponsiveNavLink>
+                        {/* Conditionally render the Admin link for mobile */}
+                        {isAdmin && (
+                            <ResponsiveNavLink href={route('admin.index')} active={route().current('admin.index')}>
+                                Admin
+                            </ResponsiveNavLink>
+                        )}
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">

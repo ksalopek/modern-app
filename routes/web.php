@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\NoteController; // <-- THIS IS THE MAGIC LINE
+use App\Http\Controllers\NoteController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-journal/trash', [NoteController::class, 'trash'])->name('notes.trash');
     Route::put('/my-journal/{id}/restore', [NoteController::class, 'restore'])->name('notes.restore');
     Route::delete('/my-journal/{id}/force-delete', [NoteController::class, 'forceDelete'])->name('notes.forceDelete');
+});
+
+// Admin Routes
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 });
 
 require __DIR__.'/auth.php';
